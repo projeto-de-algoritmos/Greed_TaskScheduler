@@ -42,6 +42,7 @@ module.exports = {
         "no-param-reassign": "off",
         "no-void": "off",
         "prefer-promise-reject-errors": "off",
+        "eol-last": ["error", "always"],
         "prettier/prettier": [
             "error",
             {
