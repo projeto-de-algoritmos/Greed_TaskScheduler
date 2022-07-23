@@ -175,7 +175,11 @@ export default {
         .dialog({
           title: 'Confirmação',
           message: 'Você tem certeza que deseja apagar este job?',
-          cancel: true,
+          cancel: {
+            flat: true,
+            color: 'negative',
+            label: 'Cancelar',
+          },
           persistent: true,
         })
         .onOk(() => {

@@ -64,9 +64,9 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Cancel" color="negative" @click="close" />
+        <q-btn flat label="Cancelar" color="negative" @click="close" />
 
-        <q-btn flat label="Submit" color="primary" @click="submit" />
+        <q-btn flat label="Salvar" color="primary" @click="submit" />
       </q-card-actions>
     </q-card>
   </q-dialog>
