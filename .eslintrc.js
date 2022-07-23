@@ -29,7 +29,7 @@ module.exports = {
     // 'plugin:vue/recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
     'airbnb-base'
-    
+
   ],
 
   plugins: [
@@ -37,7 +37,7 @@ module.exports = {
     // required to lint *.vue files
     'vue',
 
-    
+
   ],
 
   globals: {
@@ -51,7 +51,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-    
+
     'no-param-reassign': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',
@@ -66,10 +66,12 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
-    
+
     'prefer-promise-reject-errors': 'off',
 
     'vue/multi-word-component-names': 'off',
+
+    'func-names': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
