@@ -39,3 +39,7 @@ export const getJob = ({ rootState }, jobId) => {
 
   return jobs.find((job) => job.id === jobId);
 };
+
+export const deleteAll = ({ commit }) => {
+  commit('setJobs', []);
+};
