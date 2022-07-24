@@ -9,6 +9,11 @@ const routes = [
         name: 'Schedule',
         component: () => import('pages/Schedule.vue'),
       },
+      {
+        path: '/lateness',
+        name: 'Lateness',
+        component: () => import('pages/MinimizeLateness.vue'),
+      },
     ],
   },
 

@@ -48,7 +48,7 @@ const sortingCompare = (itemA, itemB) => {
 
 export default {
   name: 'SchedulePage',
-  mounted() {
+  created() {
     this.defineSchedule(this.jobs);
   },
   computed: mapGetters({

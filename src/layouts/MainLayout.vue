@@ -51,8 +51,14 @@ const linksData = [
     routeName: 'Home',
   },
   {
-    title: 'Cronograma',
-    caption: 'Conograma definido',
+    title: 'Minimizar Atraso',
+    caption: 'Cálculo do atraso mínimo',
+    icon: 'timeline',
+    routeName: 'Lateness',
+  },
+  {
+    title: 'Cronograma com dependências',
+    caption: 'Versão de "First Things First"',
     icon: 'schedule',
     routeName: 'Schedule',
   },
