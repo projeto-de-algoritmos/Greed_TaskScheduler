@@ -1,14 +1,21 @@
+const getLocalStorageJobs = () => {
+  const strJobs = localStorage.getItem('JOB_SCHEDULER_jobs');
+
+  if (strJobs) {
+    try {
+      const jobs = JSON.parse(strJobs);
+
+      if (jobs instanceof Array) return jobs;
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
+};
+
 export default function () {
   return {
-    jobs: [
-      {
-        id: 'job_1',
-        name: 'Job 1',
-        duration: 10,
-        deadline: new Date('2022-08-23'),
-        priority: 1,
-        dependencies: ['job_2'],
-      },
-    ],
+    jobs: getLocalStorageJobs(),
   };
 }

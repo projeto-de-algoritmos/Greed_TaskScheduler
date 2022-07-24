@@ -76,7 +76,7 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { format, parse } from 'date-fns';
+import { parse } from 'date-fns';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -119,8 +119,8 @@ export default {
         this.name = name;
         this.duration = duration;
         this.priority = priority;
+        this.deadline = deadline;
         this.dependencies = dependencies;
-        this.deadline = format(deadline, 'dd/MM/yyyy HH:mm');
       }
     },
     close() {
@@ -165,8 +165,8 @@ export default {
         name: this.name,
         duration: this.duration,
         priority: this.priority,
+        deadline: this.deadline,
         dependencies: this.dependencies,
-        deadline: this.deadline ? this.parseStrDate(this.deadline) : '',
       };
 
       if (this.edit) {

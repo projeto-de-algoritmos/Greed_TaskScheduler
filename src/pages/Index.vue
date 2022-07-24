@@ -81,7 +81,6 @@
 </style>
 
 <script>
-import { format } from 'date-fns';
 import { mapGetters, mapActions } from 'vuex';
 
 import FormModal from 'components/Modal.vue';
@@ -139,7 +138,6 @@ export default {
           align: 'left',
           required: true,
           field: 'deadline',
-          format: (val) => (val ? format(val, 'dd/MM/yyyy HH:mm') : ''),
         },
         {
           name: 'priority',
