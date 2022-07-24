@@ -13,6 +13,16 @@
       >
         <template v-slot:top-right>
           <q-btn
+            no-caps
+            color="positive"
+            class="q-mr-md"
+            icon-right="schedule"
+            @click="() => $router.push({ name: 'Schedule' })"
+          >
+            <q-tooltip>Montar agendamento</q-tooltip>
+          </q-btn>
+
+          <q-btn
             color="negative"
             icon-right="delete_forever"
             no-caps
