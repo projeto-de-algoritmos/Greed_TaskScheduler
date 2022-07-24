@@ -62,6 +62,15 @@
               </q-icon>
             </template>
           </q-input>
+
+          <q-select
+            counter
+            multiple
+            hint="Contador"
+            label="Depedências"
+            v-model="dependencies"
+            :options="getDependencies()"
+          />
         </q-form>
       </q-card-section>
 
@@ -130,6 +139,15 @@ export default {
       this.resetData();
 
       this.opened = false;
+    },
+    getDependencies() {
+      const dependencies = [];
+
+      this.jobs.forEach((job) => {
+        if (job.id !== this.id) dependencies.push(job.name);
+      });
+
+      return dependencies;
     },
     validateDate(str) {
       return validateStrDate(str);

@@ -6,8 +6,9 @@
       <q-table
         title="Jobs"
         :data="jobs"
-        :columns="columns"
         row-key="name"
+        :columns="columns"
+        :pagination.sync="pagination"
         no-data-label="Nenhum job cadastrado"
       >
         <template v-slot:top-right>
@@ -102,6 +103,9 @@ export default {
   }),
   data() {
     return {
+      pagination: {
+        rowsPerPage: 10,
+      },
       columns: [
         {
           name: 'name',
