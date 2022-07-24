@@ -84,8 +84,6 @@
 import { mapGetters, mapActions } from 'vuex';
 
 import FormModal from 'components/Modal.vue';
-import { quicksortM3 } from '../utils/quicksortM3';
-import { parseStrDate } from '../utils/date';
 
 export default {
   name: 'PageIndex',
@@ -98,39 +96,6 @@ export default {
     this.$q.lang.table.pagination = (start, end, total) => {
       return `${start}-${end} de ${total}`;
     };
-
-    const selectedJobs = [];
-
-    console.log(this.jobs);
-
-    this.jobs.forEach((job) => {
-      const deadline = parseStrDate(job.deadline);
-
-      if (job.dependencies.length === 0) {
-        selectedJobs.push({ ...job, deadline });
-      }
-    });
-
-    console.log(selectedJobs);
-
-    quicksortM3(selectedJobs);
-
-    console.log(selectedJobs);
-
-    // this.addJob({ id: 'suamae' });
-
-    // this.removeJob('job_1');
-
-    // this.editJob({
-    //   jobId: 'suamae',
-    //   data: {
-    //     name: 'Job 2',
-    //     duration: 10,
-    //     deadline: new Date('2022-08-23'),
-    //     priority: 1,
-    //     dependencies: ['job_1', 'job_5', 'job_7'],
-    //   },
-    // });
   },
   computed: mapGetters({
     jobs: 'app/jobs',
