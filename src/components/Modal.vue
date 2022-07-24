@@ -9,15 +9,20 @@
 
       <q-card-section class="q-pa-md">
         <q-form @submit="submit" @reset="resetData" class="q-gutter-md">
-          <q-input v-model="name" label="Nome" :error="!name && !!fieldsErrors">
+          <q-input
+            v-model="name"
+            label="Nome"
+            :error="!name && !!fieldsErrors.name"
+          >
             <template v-slot:error>{{ fieldsErrors.name }}</template>
           </q-input>
 
           <q-input
             v-model="duration"
             label="Duração"
-            type="number"
-            :error="!duration && !!fieldsErrors"
+            mask="fulltime"
+            placeholder="HH:MM:SS"
+            :error="!!fieldsErrors.duration"
           >
             <template v-slot:error>{{ fieldsErrors.duration }}</template>
           </q-input>
@@ -26,7 +31,7 @@
             v-model="priority"
             label="Prioridade"
             type="number"
-            :error="!priority && !!fieldsErrors"
+            :error="!!fieldsErrors.priority"
           >
             <template v-slot:error>{{ fieldsErrors.priority }}</template>
           </q-input>
@@ -34,7 +39,7 @@
           <q-input
             v-model="deadline"
             label="Deadline"
-            :error="!validateDate(deadline) && !!fieldsErrors"
+            :error="!!fieldsErrors.deadline"
           >
             <template v-slot:error>{{ fieldsErrors.deadline }}</template>
 
@@ -107,12 +112,12 @@ export default {
       edit: false,
       opened: false,
       id: null,
-      name: null,
-      deadline: null,
-      duration: null,
-      priority: null,
+      name: '',
+      priority: '',
+      deadline: '',
+      duration: '',
       dependencies: [],
-      fieldsErrors: null,
+      fieldsErrors: {},
     };
   },
   methods: {
@@ -157,24 +162,18 @@ export default {
 
       if (!this.name) newErrors.name = 'O nome é obrigatório';
 
-      if (!this.duration) {
-        newErrors.duration = 'A duração é obrigatória';
-      } else if (Number.isNaN(parseFloat(this.duration))) {
+      if (!this.duration) newErrors.duration = 'A duração é obrigatória';
+      else if (this.duration.length !== 8)
         newErrors.duration = 'O tempo inserido na duração é inválido';
-      }
 
-      if (!this.priority) {
-        newErrors.priority = 'A prioridade é obrigatória';
-      } else if (Number.isNaN(parseInt(this.priority, 10))) {
-        newErrors.duration =
+      if (this.priority.includes('.') || this.priority.includes(',')) {
+        newErrors.priority =
           'A prioridade é inválida, é esperado um número inteiro';
       }
 
-      if (!this.deadline) {
-        newErrors.deadline = 'O deadline é obrigatório';
-      } else if (!validateStrDate(this.deadline)) {
+      if (!this.deadline) newErrors.deadline = 'O deadline é obrigatório';
+      else if (!validateStrDate(this.deadline))
         newErrors.deadline = 'A data inserida no deadline é inválida';
-      }
 
       this.fieldsErrors = { ...newErrors };
 
@@ -186,9 +185,9 @@ export default {
       const newJob = {
         name: this.name,
         deadline: this.deadline,
+        duration: this.duration,
         dependencies: this.dependencies,
-        duration: parseFloat(this.duration),
-        priority: parseInt(this.priority, 10),
+        priority: !this.priority ? 1 : parseInt(this.priority, 10),
       };
 
       if (this.edit) {
@@ -201,13 +200,13 @@ export default {
     },
     resetData() {
       this.edit = false;
-      this.id = '';
+      this.id = null;
       this.name = '';
-      this.duration = null;
+      this.duration = '';
       this.deadline = '';
-      this.priority = null;
+      this.priority = '';
       this.dependencies = [];
-      this.fieldsErrors = null;
+      this.fieldsErrors = {};
     },
   },
 };
