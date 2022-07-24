@@ -1,21 +1,27 @@
 <template>
   <q-page>
     <div class="page-container flex column q-mt-xl q-mx-auto">
-      <q-list bordered separator>
-        <q-item class="text-bold">
-          <q-item-section>Nome</q-item-section>
-          <q-item-section>Duração</q-item-section>
-          <q-item-section>Pioridade</q-item-section>
-          <q-item-section>Deadline</q-item-section>
-        </q-item>
+      <q-table
+        title="Jobs"
+        :data="schedule"
+        row-key="name"
+        :columns="columns"
+        :pagination.sync="pagination"
+        no-data-label="Nenhum job cadastrado"
+      >
+        <template v-slot:no-data="{ icon, message }">
+          <div
+            class="full-width row flex-center q-gutter-sm"
+            style="color: #ff00ff"
+          >
+            <q-icon size="2em" name="sentiment_dissatisfied" />
 
-        <q-item :key="job.id" v-for="job in schedule">
-          <q-item-section>{{ job.name }}</q-item-section>
-          <q-item-section>{{ job.duration }}</q-item-section>
-          <q-item-section>{{ job.priority }}</q-item-section>
-          <q-item-section>{{ formatDateToStr(job.deadline) }}</q-item-section>
-        </q-item>
-      </q-list>
+            <span> {{ message }} </span>
+
+            <q-icon size="2em" :name="icon" />
+          </div>
+        </template>
+      </q-table>
     </div>
   </q-page>
 </template>
@@ -43,34 +49,98 @@ const sortingCompare = (itemA, itemB) => {
 export default {
   name: 'SchedulePage',
   mounted() {
-    this.defineSchedule();
+    this.defineSchedule(this.jobs);
   },
   computed: mapGetters({
     jobs: 'app/jobs',
   }),
   data() {
     return {
+      selected: {},
       schedule: [],
+      pagination: {
+        rowsPerPage: 10,
+      },
+      columns: [
+        {
+          name: 'name',
+          label: 'Nome',
+          align: 'left',
+          required: true,
+          field: 'name',
+        },
+        {
+          name: 'duration',
+          label: 'Duração',
+          align: 'left',
+          required: true,
+          field: 'duration',
+        },
+        {
+          name: 'deadline',
+          label: 'Deadline',
+          align: 'left',
+          required: true,
+          field: 'deadline',
+          format: (val) => this.formatDateToStr(val),
+        },
+        {
+          name: 'priority',
+          label: 'Prioridade',
+          align: 'left',
+          required: true,
+          field: 'priority',
+        },
+        {
+          name: 'dependencies',
+          label: 'Dependências',
+          align: 'left',
+          required: true,
+          field: 'dependencies',
+          format: (val) => val.join(', '),
+        },
+      ],
     };
   },
   methods: {
     formatDateToStr(date) {
       return formatDate(date);
     },
-    defineSchedule() {
+    // We have to test and think about this
+    defineSchedule(jobs) {
+      if (jobs.length === 0) return;
+
       let newSelectedJobs = [];
+      const notSelected = [];
+      const newSelected = { ...this.selected };
 
-      this.jobs.forEach((job) => {
-        const deadline = parseStrDate(job.deadline);
+      jobs.forEach((job) => {
+        const deadline =
+          job.deadline instanceof Date
+            ? job.deadline
+            : parseStrDate(job.deadline);
 
-        if (job.dependencies.length === 0) {
+        if (
+          job.dependencies.length === 0 ||
+          job.dependencies.every((item) => !!newSelected[item])
+        ) {
           newSelectedJobs.push({ ...job, deadline });
+        } else {
+          notSelected.push({ ...job, deadline });
         }
       });
 
       newSelectedJobs = newSelectedJobs.sort(sortingCompare);
 
-      this.schedule = newSelectedJobs;
+      this.schedule = [...this.schedule, ...newSelectedJobs];
+
+      newSelectedJobs.forEach((job) => {
+        newSelected[job.name] = true;
+      });
+
+      this.selected = newSelected;
+
+      this.defineSchedule(notSelected);
     },
   },
 };
