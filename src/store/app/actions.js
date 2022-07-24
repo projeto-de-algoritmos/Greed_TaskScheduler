@@ -1,45 +1,45 @@
-export const addJob = ({ commit, rootState }, job) => {
-  const { jobs } = rootState.app;
+export const addTask = ({ commit, rootState }, task) => {
+  const { tasks } = rootState.app;
 
-  const newJobs = [...jobs, job];
+  const newTasks = [...tasks, task];
 
-  commit('setJobs', newJobs);
+  commit('setTasks', newTasks);
 };
 
-export const removeJob = ({ commit, rootState }, jobId) => {
-  const { jobs } = rootState.app;
+export const removeTask = ({ commit, rootState }, taskId) => {
+  const { tasks } = rootState.app;
 
-  const newJobs = [...jobs];
+  const newTasks = [...tasks];
 
-  const idx = newJobs.findIndex((job) => job.id === jobId);
+  const idx = newTasks.findIndex((task) => task.id === taskId);
 
   if (idx < 0) return;
 
-  newJobs.splice(idx, 1);
+  newTasks.splice(idx, 1);
 
-  commit('setJobs', newJobs);
+  commit('setTasks', newTasks);
 };
 
-export const editJob = ({ commit, rootState }, { jobId, data }) => {
-  const { jobs } = rootState.app;
+export const editTask = ({ commit, rootState }, { taskId, data }) => {
+  const { tasks } = rootState.app;
 
-  const newJobs = [...jobs];
+  const newTasks = [...tasks];
 
-  const idx = newJobs.findIndex((job) => job.id === jobId);
+  const idx = newTasks.findIndex((task) => task.id === taskId);
 
   if (idx < 0) return;
 
-  newJobs[idx] = { ...newJobs[idx], ...data };
+  newTasks[idx] = { ...newTasks[idx], ...data };
 
-  commit('setJobs', newJobs);
+  commit('setTasks', newTasks);
 };
 
-export const getJob = ({ rootState }, jobId) => {
-  const { jobs } = rootState.app;
+export const getTask = ({ rootState }, taskId) => {
+  const { tasks } = rootState.app;
 
-  return jobs.find((job) => job.id === jobId);
+  return tasks.find((task) => task.id === taskId);
 };
 
 export const deleteAll = ({ commit }) => {
-  commit('setJobs', []);
+  commit('setTasks', []);
 };

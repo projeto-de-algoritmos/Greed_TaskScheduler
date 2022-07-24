@@ -2,12 +2,12 @@
   <q-page>
     <div class="page-container flex column q-mt-xl q-mx-auto">
       <q-table
-        title="Jobs"
+        title="Tasks"
         :data="schedule"
         row-key="name"
         :columns="columns"
         :pagination.sync="pagination"
-        no-data-label="Nenhum job cadastrado"
+        no-data-label="Nenhum task cadastrado"
       >
         <template v-slot:no-data="{ icon, message }">
           <div
@@ -49,10 +49,10 @@ const sortingCompare = (itemA, itemB) => {
 export default {
   name: 'SchedulePage',
   created() {
-    this.defineSchedule(this.jobs);
+    this.defineSchedule(this.tasks);
   },
   computed: mapGetters({
-    jobs: 'app/jobs',
+    tasks: 'app/tasks',
   }),
   data() {
     return {
@@ -107,35 +107,35 @@ export default {
       return formatDate(date);
     },
     // We have to test and think about this
-    defineSchedule(jobs) {
-      if (jobs.length === 0) return;
+    defineSchedule(tasks) {
+      if (tasks.length === 0) return;
 
-      let newSelectedJobs = [];
+      let newSelectedTasks = [];
       const notSelected = [];
       const newSelected = { ...this.selected };
 
-      jobs.forEach((job) => {
+      tasks.forEach((task) => {
         const deadline =
-          job.deadline instanceof Date
-            ? job.deadline
-            : parseStrDate(job.deadline);
+          task.deadline instanceof Date
+            ? task.deadline
+            : parseStrDate(task.deadline);
 
         if (
-          job.dependencies.length === 0 ||
-          job.dependencies.every((item) => !!newSelected[item])
+          task.dependencies.length === 0 ||
+          task.dependencies.every((item) => !!newSelected[item])
         ) {
-          newSelectedJobs.push({ ...job, deadline });
+          newSelectedTasks.push({ ...task, deadline });
         } else {
-          notSelected.push({ ...job, deadline });
+          notSelected.push({ ...task, deadline });
         }
       });
 
-      newSelectedJobs = newSelectedJobs.sort(sortingCompare);
+      newSelectedTasks = newSelectedTasks.sort(sortingCompare);
 
-      this.schedule = [...this.schedule, ...newSelectedJobs];
+      this.schedule = [...this.schedule, ...newSelectedTasks];
 
-      newSelectedJobs.forEach((job) => {
-        newSelected[job.name] = true;
+      newSelectedTasks.forEach((task) => {
+        newSelected[task.name] = true;
       });
 
       this.selected = newSelected;

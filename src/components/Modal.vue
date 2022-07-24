@@ -2,7 +2,7 @@
   <q-dialog v-model="opened" persistent>
     <q-card style="min-width: 400px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Job</div>
+        <div class="text-h6">Task</div>
         <q-space />
         <q-btn icon="close" flat round dense @click="close" />
       </q-card-section>
@@ -97,15 +97,15 @@ import { mapGetters, mapActions } from 'vuex';
 import { validateStrDate } from '../utils/date';
 
 export default {
-  name: 'JobFormModal',
+  name: 'TaskFormModal',
   props: {
-    job: {
+    task: {
       type: Object,
       default: null,
     },
   },
   computed: mapGetters({
-    jobs: 'app/jobs',
+    tasks: 'app/tasks',
   }),
   data() {
     return {
@@ -122,15 +122,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      addJob: 'app/addJob',
-      editJob: 'app/editJob',
+      addTask: 'app/addTask',
+      editTask: 'app/editTask',
     }),
-    open(job = null) {
-      this.edit = !!job;
+    open(task = null) {
+      this.edit = !!task;
       this.opened = true;
 
       if (this.edit) {
-        const { id, name, duration, deadline, priority, dependencies } = job;
+        const { id, name, duration, deadline, priority, dependencies } = task;
 
         this.id = id;
         this.name = name;
@@ -148,8 +148,8 @@ export default {
     getDependencies() {
       const dependencies = [];
 
-      this.jobs.forEach((job) => {
-        if (job.id !== this.id) dependencies.push(job.name);
+      this.tasks.forEach((task) => {
+        if (task.id !== this.id) dependencies.push(task.name);
       });
 
       return dependencies;
@@ -182,7 +182,7 @@ export default {
     submit() {
       if (!this.validateFields()) return;
 
-      const newJob = {
+      const newTask = {
         name: this.name,
         deadline: this.deadline,
         duration: this.duration,
@@ -191,9 +191,9 @@ export default {
       };
 
       if (this.edit) {
-        this.editJob({ jobId: this.id, data: newJob });
+        this.editTask({ taskId: this.id, data: newTask });
       } else {
-        this.addJob({ ...newJob, id: uuidv4() });
+        this.addTask({ ...newTask, id: uuidv4() });
       }
 
       this.close();

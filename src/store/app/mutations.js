@@ -1,11 +1,11 @@
-const saveJobsToLocalStorage = (jobs) => {
-  localStorage.setItem('JOB_SCHEDULER_jobs', JSON.stringify(jobs));
+const saveTasksToLocalStorage = (tasks) => {
+  localStorage.setItem('TASK_SCHEDULER_tasks', JSON.stringify(tasks));
 };
 
-export const setJobs = (state, jobs) => {
-  const newJobs = [...jobs];
+export const setTasks = (state, tasks) => {
+  const newTasks = [...tasks];
 
-  saveJobsToLocalStorage(newJobs);
+  saveTasksToLocalStorage(newTasks);
 
-  state.jobs = newJobs;
+  state.tasks = newTasks;
 };

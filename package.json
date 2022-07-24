@@ -1,8 +1,8 @@
 {
-  "name": "job-scheduler",
+  "name": "task-scheduler",
   "version": "0.0.1",
-  "description": "A Job Scheduler",
-  "productName": "Job Scheduler",
+  "description": "A Task Scheduler",
+  "productName": "Task Scheduler",
   "author": "igor-paiva, thiagolopess",
   "private": true,
   "scripts": {

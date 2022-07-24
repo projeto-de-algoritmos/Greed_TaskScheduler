@@ -1,11 +1,11 @@
-const getLocalStorageJobs = () => {
-  const strJobs = localStorage.getItem('JOB_SCHEDULER_jobs');
+const getLocalStorageTasks = () => {
+  const strTasks = localStorage.getItem('TASK_SCHEDULER_tasks');
 
-  if (strJobs) {
+  if (strTasks) {
     try {
-      const jobs = JSON.parse(strJobs);
+      const tasks = JSON.parse(strTasks);
 
-      if (jobs instanceof Array) return jobs;
+      if (tasks instanceof Array) return tasks;
     } catch {
       return [];
     }
@@ -16,6 +16,6 @@ const getLocalStorageJobs = () => {
 
 export default function () {
   return {
-    jobs: getLocalStorageJobs(),
+    tasks: getLocalStorageTasks(),
   };
 }

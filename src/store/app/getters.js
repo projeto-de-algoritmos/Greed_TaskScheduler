@@ -1,3 +1,3 @@
-export const jobs = (state) => {
-  return state.jobs;
+export const tasks = (state) => {
+  return state.tasks;
 };

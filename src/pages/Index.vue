@@ -4,12 +4,12 @@
 
     <div class="page-container flex column q-mt-xl q-mx-auto">
       <q-table
-        title="Jobs"
-        :data="jobs"
+        title="Tasks"
+        :data="tasks"
         row-key="name"
         :columns="columns"
         :pagination.sync="pagination"
-        no-data-label="Nenhum job cadastrado"
+        no-data-label="Nenhuma task cadastrada"
       >
         <template v-slot:top-right>
           <q-btn
@@ -28,7 +28,7 @@
             no-caps
             @click="deleteAll"
           >
-            <q-tooltip>Apagar todos os jobs</q-tooltip>
+            <q-tooltip>Apagar todas as tasks</q-tooltip>
           </q-btn>
 
           <q-btn
@@ -38,7 +38,7 @@
             class="q-ml-md"
             @click="() => openModal()"
           >
-            <q-tooltip>Adicionar novo job</q-tooltip>
+            <q-tooltip>Adicionar nova task</q-tooltip>
           </q-btn>
         </template>
 
@@ -52,7 +52,7 @@
               dense
               @click="() => openModal(props.row)"
             >
-              <q-tooltip>Editar este job</q-tooltip>
+              <q-tooltip>Editar esta task</q-tooltip>
             </q-btn>
 
             <q-btn
@@ -61,9 +61,9 @@
               no-caps
               flat
               dense
-              @click="deleteJob(props.row.id)"
+              @click="deleteTask(props.row.id)"
             >
-              <q-tooltip>Remover este job</q-tooltip>
+              <q-tooltip>Remover esta task</q-tooltip>
             </q-btn>
           </q-td>
         </template>
@@ -109,7 +109,7 @@ export default {
     };
   },
   computed: mapGetters({
-    jobs: 'app/jobs',
+    tasks: 'app/tasks',
   }),
   data() {
     return {
@@ -159,19 +159,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      addJob: 'app/addJob',
-      editJob: 'app/editJob',
-      removeJob: 'app/removeJob',
+      addTask: 'app/addTask',
+      editTask: 'app/editTask',
+      removeTask: 'app/removeTask',
       deleteAll: 'app/deleteAll',
     }),
-    openModal(job = null) {
-      this.$refs.formModal.open(job);
+    openModal(task = null) {
+      this.$refs.formModal.open(task);
     },
-    deleteJob(jobId) {
+    deleteTask(taskId) {
       this.$q
         .dialog({
           title: 'Confirmação',
-          message: 'Você tem certeza que deseja apagar este job?',
+          message: 'Você tem certeza que deseja apagar esta task?',
           cancel: {
             flat: true,
             color: 'negative',
@@ -180,7 +180,7 @@ export default {
           persistent: true,
         })
         .onOk(() => {
-          this.removeJob(jobId);
+          this.removeTask(taskId);
         });
     },
   },

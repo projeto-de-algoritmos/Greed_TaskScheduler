@@ -113,9 +113,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Job Scheduler',
-        short_name: 'Job Scheduler',
-        description: 'A Job Scheduler',
+        name: 'Task Scheduler',
+        short_name: 'Task Scheduler',
+        description: 'A Task Scheduler',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -178,7 +178,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'job-scheduler',
+        appId: 'task-scheduler',
       },
 
       // More info: https://v1.quasar.dev/quasar-cli/developing-electron-apps/node-integration

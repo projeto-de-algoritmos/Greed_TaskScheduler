@@ -2,7 +2,7 @@
   <q-page>
     <div class="page-container flex column q-mt-xl q-mx-auto">
       <q-table
-        title="Jobs"
+        title="Tasks"
         :data="schedule"
         row-key="name"
         :columns="columns"
@@ -11,7 +11,7 @@
       >
         <template v-slot:top-right>
           <q-input v-model="startDate" label="Data de início" class="q-mr-md">
-            <q-tooltip> Data de início da execução dos jobs </q-tooltip>
+            <q-tooltip> Data de início da execução das tasks </q-tooltip>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -89,7 +89,7 @@ const sortingCompare = (itemA, itemB) => {
 export default {
   name: 'MinimizeLatenessPage',
   computed: mapGetters({
-    jobs: 'app/jobs',
+    tasks: 'app/tasks',
   }),
   data() {
     return {
@@ -155,35 +155,35 @@ export default {
       return formatDate(date);
     },
     defineSchedule() {
-      let newSelectedJobs = [];
+      let newSelectedTasks = [];
       let time = parseStrDate(this.startDate);
 
       if (Number.isNaN(time.getTime())) return;
 
-      this.jobs.forEach((job) => {
-        const deadline = parseStrDate(job.deadline);
+      this.tasks.forEach((task) => {
+        const deadline = parseStrDate(task.deadline);
 
-        newSelectedJobs.push({ ...job, deadline });
+        newSelectedTasks.push({ ...task, deadline });
       });
 
-      newSelectedJobs = newSelectedJobs.sort(sortingCompare);
+      newSelectedTasks = newSelectedTasks.sort(sortingCompare);
 
       let maxLateness = { name: '', lateness: 0 };
 
-      this.schedule = newSelectedJobs.map((job) => {
+      this.schedule = newSelectedTasks.map((task) => {
         const startTime = new Date(time);
 
-        time = addDurationToDate(time, job.duration);
+        time = addDurationToDate(time, task.duration);
 
         const endTime = new Date(time);
-        const late = endTime > job.deadline;
+        const late = endTime > task.deadline;
         let lateness = 0;
 
         if (late) {
-          const diffInSeconds = endTime - job.deadline;
+          const diffInSeconds = endTime - task.deadline;
 
           const durationObj = intervalToDuration({
-            start: job.deadline,
+            start: task.deadline,
             end: endTime,
           });
 
@@ -192,10 +192,10 @@ export default {
           lateness = durationStrLocale(lateness);
 
           if (diffInSeconds > maxLateness.lateness)
-            maxLateness = { name: job.name, lateness: diffInSeconds };
+            maxLateness = { name: task.name, lateness: diffInSeconds };
         }
 
-        return { ...job, startTime, endTime, lateness };
+        return { ...task, startTime, endTime, lateness };
       });
 
       this.maxLateness = maxLateness;
