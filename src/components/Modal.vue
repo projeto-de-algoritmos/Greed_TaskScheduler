@@ -16,6 +16,7 @@
           <q-input
             v-model="duration"
             label="Duração"
+            type="number"
             :error="!duration && !!fieldsErrors"
           >
             <template v-slot:error>{{ fieldsErrors.duration }}</template>
@@ -24,6 +25,7 @@
           <q-input
             v-model="priority"
             label="Prioridade"
+            type="number"
             :error="!priority && !!fieldsErrors"
           >
             <template v-slot:error>{{ fieldsErrors.priority }}</template>
@@ -32,7 +34,7 @@
           <q-input
             v-model="deadline"
             label="Deadline"
-            :error="!validateStrDate(deadline) && !!fieldsErrors"
+            :error="!validateDate(deadline) && !!fieldsErrors"
           >
             <template v-slot:error>{{ fieldsErrors.deadline }}</template>
 
@@ -76,8 +78,9 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { parse } from 'date-fns';
 import { mapGetters, mapActions } from 'vuex';
+
+import { validateStrDate } from '../utils/date';
 
 export default {
   name: 'JobFormModal',
@@ -94,9 +97,9 @@ export default {
     return {
       edit: false,
       opened: false,
-      id: '',
-      name: '',
-      deadline: '',
+      id: null,
+      name: null,
+      deadline: null,
       duration: null,
       priority: null,
       dependencies: [],
@@ -128,29 +131,30 @@ export default {
 
       this.opened = false;
     },
-    parseStrDate(str) {
-      return parse(str, 'dd/MM/yyyy HH:mm', new Date());
-    },
-    validateStrDate(str) {
-      try {
-        return !Number.isNaN(this.parseStrDate(str).getTime());
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-
-        return false;
-      }
+    validateDate(str) {
+      return validateStrDate(str);
     },
     validateFields() {
       const newErrors = {};
 
       if (!this.name) newErrors.name = 'O nome é obrigatório';
-      if (!this.duration) newErrors.duration = 'A duração é obrigatória';
-      if (!this.priority) newErrors.priority = 'A prioridade é obrigatória';
+
+      if (!this.duration) {
+        newErrors.duration = 'A duração é obrigatória';
+      } else if (Number.isNaN(parseFloat(this.duration))) {
+        newErrors.duration = 'O tempo inserido na duração é inválido';
+      }
+
+      if (!this.priority) {
+        newErrors.priority = 'A prioridade é obrigatória';
+      } else if (Number.isNaN(parseInt(this.priority, 10))) {
+        newErrors.duration =
+          'A prioridade é inválida, é esperado um número inteiro';
+      }
 
       if (!this.deadline) {
         newErrors.deadline = 'O deadline é obrigatório';
-      } else if (!this.validateStrDate(this.deadline)) {
+      } else if (!validateStrDate(this.deadline)) {
         newErrors.deadline = 'A data inserida no deadline é inválida';
       }
 
@@ -163,10 +167,10 @@ export default {
 
       const newJob = {
         name: this.name,
-        duration: this.duration,
-        priority: this.priority,
         deadline: this.deadline,
         dependencies: this.dependencies,
+        duration: parseFloat(this.duration),
+        priority: parseInt(this.priority, 10),
       };
 
       if (this.edit) {
