@@ -46,6 +46,7 @@
             <q-tooltip> Montar agendamento </q-tooltip>
           </q-btn>
         </template>
+
         <template v-slot:no-data="{ icon, message }">
           <div
             class="full-width row flex-center q-gutter-sm"
@@ -55,6 +56,23 @@
 
             <q-icon size="2em" :name="icon" />
           </div>
+        </template>
+
+        <template v-slot:bottom>
+          <q-chip
+            square
+            color="primary"
+            text-color="white"
+            icon-right="more_time"
+          >
+            Atraso máximo =>
+
+            {{
+              maxLateness.latenessInSeconds > 0
+                ? `${maxLateness.name}: ${maxLateness.lateness}`
+                : 'Não há nenhum atraso'
+            }}
+          </q-chip>
         </template>
       </q-table>
     </div>
@@ -168,7 +186,7 @@ export default {
 
       newSelectedTasks = newSelectedTasks.sort(sortingCompare);
 
-      let maxLateness = { name: '', lateness: 0 };
+      let maxLateness = { name: '', lateness: 0, latenessInSeconds: 0 };
 
       this.schedule = newSelectedTasks.map((task) => {
         const startTime = new Date(time);
@@ -191,8 +209,12 @@ export default {
 
           lateness = durationStrLocale(lateness);
 
-          if (diffInSeconds > maxLateness.lateness)
-            maxLateness = { name: task.name, lateness: diffInSeconds };
+          if (diffInSeconds > maxLateness.latenessInSeconds)
+            maxLateness = {
+              name: task.name,
+              latenessInSeconds: diffInSeconds,
+              lateness,
+            };
         }
 
         return { ...task, startTime, endTime, lateness };
