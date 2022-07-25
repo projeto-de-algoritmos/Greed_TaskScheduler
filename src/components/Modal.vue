@@ -166,7 +166,10 @@ export default {
       else if (this.duration.length !== 8)
         newErrors.duration = 'O tempo inserido na duração é inválido';
 
-      if (this.priority.includes('.') || this.priority.includes(',')) {
+      if (
+        this.priority.toString().includes('.') ||
+        this.priority.toString().includes(',')
+      ) {
         newErrors.priority =
           'A prioridade é inválida, é esperado um número inteiro';
       }
