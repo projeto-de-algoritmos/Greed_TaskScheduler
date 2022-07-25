@@ -65,13 +65,13 @@
             text-color="white"
             icon-right="more_time"
           >
-            Atraso máximo =>
-
             {{
               maxLateness.latenessInSeconds > 0
                 ? `${maxLateness.name}: ${maxLateness.lateness}`
                 : 'Não há nenhum atraso'
             }}
+
+            <q-tooltip>Atraso máximo</q-tooltip>
           </q-chip>
         </template>
       </q-table>
