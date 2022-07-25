@@ -56,12 +56,20 @@ export default {
   }),
   data() {
     return {
+      iterations: 1,
       selected: {},
       schedule: [],
       pagination: {
         rowsPerPage: 10,
       },
       columns: [
+        {
+          name: 'iteration',
+          label: 'Iteração',
+          align: 'left',
+          required: true,
+          field: 'iteration',
+        },
         {
           name: 'name',
           label: 'Nome',
@@ -106,7 +114,6 @@ export default {
     formatDateToStr(date) {
       return formatDate(date);
     },
-    // We have to test and think about this
     defineSchedule(tasks) {
       if (tasks.length === 0) return;
 
@@ -124,7 +131,11 @@ export default {
           task.dependencies.length === 0 ||
           task.dependencies.every((item) => !!newSelected[item])
         ) {
-          newSelectedTasks.push({ ...task, deadline });
+          newSelectedTasks.push({
+            ...task,
+            deadline,
+            iteration: this.iterations,
+          });
         } else {
           notSelected.push({ ...task, deadline });
         }
@@ -139,6 +150,8 @@ export default {
       });
 
       this.selected = newSelected;
+
+      this.iterations += 1;
 
       this.defineSchedule(notSelected);
     },
