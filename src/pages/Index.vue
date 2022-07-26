@@ -17,7 +17,7 @@
             color="positive"
             class="q-mr-md"
             icon-right="schedule"
-            @click="() => $router.push({ name: 'Schedule' })"
+            @click="() => $router.push({ name: 'Lateness' })"
           >
             <q-tooltip>Montar agendamento</q-tooltip>
           </q-btn>
