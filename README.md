@@ -18,7 +18,10 @@ No software, existem duas opções de organização das tarefas, sendo elas:
  - Cronograma com dependências:
  Essa opção foi baseada em uma técnica de priorização de requisitos de software chamada [*First Things First*](https://www.processimpact.com/articles/prioritizing.pdf), e leva em consideração não somente o deadline, como também a prioridade e as dependências das tarefas designadas, trazendo as atividades em ondas.
 
+O vídeo da apresentação pode ser encontrado clicando [aqui](https://github.com/projeto-de-algoritmos/Greed_TaskScheduler/blob/4bfd2ae72e1335650189fee74f18c076e37b66bd/apresentacao.mp4?raw=true).
+
 ## Screenshots
+
 ### Página Inicial
 ![home](./src/assets/screenshots/home.png)
 
