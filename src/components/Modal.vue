@@ -11,7 +11,7 @@
         <q-form @submit="submit" @reset="resetData" class="q-gutter-md">
           <q-input
             v-model="name"
-            label="Nome"
+            label="Nome *"
             :error="!name && !!fieldsErrors.name"
           >
             <template v-slot:error>{{ fieldsErrors.name }}</template>
@@ -19,7 +19,7 @@
 
           <q-input
             v-model="duration"
-            label="Duração"
+            label="Duração *"
             mask="fulltime"
             placeholder="HH:MM:SS"
             :error="!!fieldsErrors.duration"
@@ -38,7 +38,7 @@
 
           <q-input
             v-model="deadline"
-            label="Deadline"
+            label="Deadline *"
             :error="!!fieldsErrors.deadline"
           >
             <template v-slot:error>{{ fieldsErrors.deadline }}</template>
